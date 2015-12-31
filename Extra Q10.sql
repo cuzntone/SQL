@@ -5,7 +5,21 @@ you might think of it as finding the highest average rating and then choosing th
 
 select title, a.average as highest 
 from (select mID, avg(stars) as average 
-      from rating group by mID) a, movie
-      where movie.mID=a.mID and a.average = (select max(b.average) 
-                                             from (select mID, avg(stars) as average from rating group by mID) b
-                                            );
+      from rating 
+      group by mID) a, movie
+where movie.mID=a.mID and a.average = (select max(b.average) 
+                                       from (select mID, avg(stars) as average 
+                                             from rating 
+                                             group by mID) b
+                                      );
+
+/***Q11***/
+select title, a.average as lowest 
+from (select mID, avg(stars) as average 
+      from rating 
+      group by mID) a, movie
+where movie.mID=a.mID and a.average = (select min(b.average) 
+                                       from (select mID, avg(stars) as average 
+                                             from rating 
+                                             group by mID) b
+                                      );
